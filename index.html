@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>CHICO AI V5.4 SECURED</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<style>@keyframes fadeIn{from{opacity:0}to{opacity:1}}.msg{animation:fadeIn.2s} #opening{position:fixed;inset:0;z-index:9999;background:#020617;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#22c55e}</style>
+<style>
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+body{background:#111b21;margin:0;font-family:'Segoe UI',Helvetica,Arial,sans-serif}
+#app{max-width:480px;margin:0 auto;height:100vh;background:#0b141a;display:flex;flex-direction:column;box-shadow:0 0 20px rgba(0,0,0,0.5)}
+#opening{position:fixed;inset:0;z-index:9999;background:#111b21;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#25d366}
+.msg{animation:fadeIn.25s ease-out;max-width:75%;padding:8px 10px 6px 10px;border-radius:8px;font-size:14.5px;line-height:1.35;position:relative;box-shadow:0 1px 0.5px rgba(0,0,0,.3);word-wrap:break-word}
+.msg.user{align-self:flex-end;background:#005c4b;color:#e9edef;border-top-right-radius:0}
+.msg.bot{align-self:flex-start;background:#202c33;color:#e9edef;border-top-left-radius:0}
+.msg.system{align-self:center;background:#182533;color:#8696a0;font-size:12px;border-radius:18px;padding:5px 12px;max-width:90%}
+.time{font-size:11px;color:#8696a0;float:right;margin-left:10px;margin-top:5px}
+#chatBox{background-color:#0b141a;background-image:url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');background-blend-mode:overlay;display:flex;flex-direction:column;gap:6px}
+.whatsapp-header{background:#202c33;padding:10px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2f3c44}
+.whatsapp-header img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.input-bar{background:#202c33;padding:6px 10px;display:flex;align-items:center;gap:8px}
+.input-bar input{flex:1;background:#2a3942;border:none;border-radius:22px;padding:11px 16px;color:#fff;outline:none;font-size:15px}
+.input-bar button.send{background:#00a884;border:none;width:44px;height:44px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px}
+.tabBtn.active{background:#00a884!important;color:#fff}
+</style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col">
-<div id="opening"><div class="text-2xl font-bold">CHICO AI</div><div class="text-[10px] opacity-60">V5.4 SECURED • Physics 2010-2026</div><div id="openLog" class="mt-6 font-mono text-[10px] opacity-60"></div></div>
-<div id="announceBar" class="hidden bg-amber-400 text-black text-center text-xs p-2 font-bold"></div>
-<header class="p-3 border-b border-slate-800 flex justify-between"><div class="font-bold text-green-400 text-sm">CHICO AI <span class="text-[9px] text-slate-400">V5.4 SECURED</span></div><button onclick="document.getElementById('adminModal').classList.remove('hidden')" class="text-[10px] bg-slate-800 px-2 py-1 rounded">Admin</button></header>
-<div class="flex flex-wrap gap-1 p-2 bg-slate-900/50 text-[11px]">
-<button class="tabBtn bg-green-600 px-3 py-1 rounded" data-tab="chat">Chat</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="quiz">Quiz 2010-2026</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="vision">Vision</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="image">Image</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="voice">Voice</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="read">Read</button>
-<button class="tabBtn bg-slate-800 px-3 py-1 rounded" data-tab="history">History</button>
+<body>
+<div id="app">
+<div id="opening"><div class="text-3xl font-bold tracking-wider">CHICO AI</div><div class="text-[10px] opacity-60 mt-1 tracking-[3px]">V5.4 SECURED • Physics 2010-2026</div><div id="openLog" class="mt-8 font-mono text-[10px] opacity-60 space-y-1"></div></div>
+<div id="announceBar" class="hidden bg-[#25d366] text-black text-center text-xs p-2 font-bold"></div>
+
+<!-- WHATSAPP HEADER -->
+<div class="whatsapp-header">
+  <img src="https://i.pravatar.cc/150?img=12" alt="Chico">
+  <div class="flex-1">
+    <div class="font-bold text-[17px] text-white leading-none">Chico AI</div>
+    <div class="text-[13px] text-[#8696a0]">Physics Teacher • online</div>
+  </div>
+  <button onclick="document.getElementById('adminModal').classList.remove('hidden')" class="text-[#8696a0] text-xl">⋮</button>
 </div>
-<main class="flex-1 flex flex-col overflow-hidden">
-<div id="chatTab" class="tab flex-1 flex flex-col"><div id="chatBox" class="flex-1 overflow-y-auto p-3 space-y-2"></div><div class="p-2 border-t border-slate-800 flex gap-2"><input id="userInput" placeholder="Ask Physics..." class="flex-1 bg-slate-900 rounded px-3 py-2 text-sm outline-none"><button id="sendBtn" class="bg-green-600 px-4 py-2 rounded text-sm">Send</button><button id="micBtn" class="bg-slate-800 px-2 rounded">🎤</button></div></div>
-<div id="quizTab" class="tab hidden p-3"><div class="text-sm font-bold">JAMB/WAEC/NECO 2010-2026 Quiz</div><div class="flex gap-2 mt-2"><select id="quizExam" class="bg-slate-900 rounded px-2 py-2 text-xs"><option>JAMB</option><option>WAEC</option><option>NECO</option></select><select id="quizYear" class="bg-slate-900 rounded px-2 py-2 text-xs"><option>2026</option><option>2025</option><option>2010-2022</option></select><button id="genQuiz" class="bg-green-600 px-3 py-1 rounded text-xs">Generate</button></div><div class="text-xs mt-2 opacity-70">Generates in chat</div></div>
-<div id="visionTab" class="tab hidden p-3"><div class="text-sm font-bold">Vision Solver</div><input type="file" id="visionFile" accept="image/*" class="text-xs mt-2"><div id="visionOut" class="text-xs mt-2 bg-slate-900 p-2 rounded">Upload → Describe FIRST → Transcribe verbatim → Given/Formula/$LaTeX$/Solution/Answer</div></div>
-<div id="imageTab" class="tab hidden p-3"><input id="imgPrompt" placeholder="Physics diagram..." class="w-full bg-slate-900 rounded px-3 py-2 text-sm"><button id="genImg" class="bg-green-600 px-3 py-2 rounded text-xs mt-2">Generate + Watermark</button><div id="imgOut" class="mt-2"></div></div>
-<div id="voiceTab" class="tab hidden p-3 text-xs">Use mic button in Chat to speak</div>
-<div id="readTab" class="tab hidden p-3"><button id="readBtn" class="bg-green-600 px-3 py-2 rounded text-xs">🔊 Read Last Answer</button><button id="stopReadBtn" class="bg-slate-800 px-3 py-2 rounded text-xs ml-2">Stop</button></div>
-<div id="historyTab" class="tab hidden p-3"><div class="flex justify-between"><span class="text-sm font-bold">History</span><button id="clearHist" class="text-xs bg-red-900 px-2 py-1 rounded">Clear</button></div><div id="histBox" class="text-xs mt-2 space-y-1"></div></div>
+
+<div class="flex gap-1 p-2 bg-[#111b21] text-[11px] overflow-x-auto whitespace-nowrap scrollbar-none">
+<button class="tabBtn active bg-[#00a884] px-3 py-1.5 rounded-full font-medium" data-tab="chat">💬 Chat</button>
+<button class="tabBtn bg-[#202c33] text-[#8696a0] px-3 py-1.5 rounded-full" data-tab="quiz">📚 Quiz</button>
+<button class="tabBtn bg-[#202c33] text-[#8696a0] px-3 py-1.5 rounded-full" data-tab="vision">👁️ Vision</button>
+<button class="tabBtn bg-[#202c33] text-[#8696a0] px-3 py-1.5 rounded-full" data-tab="image">🎨 Image</button>
+<button class="tabBtn bg-[#202c33] text-[#8696a0] px-3 py-1.5 rounded-full" data-tab="voice">🎤 Voice</button>
+<button class="tabBtn bg-[#202c33] text-[#8696a0] px-3 py-1.5 rounded-full" data-tab="history">🕓 History</button>
+</div>
+
+<main class="flex-1 flex flex-col overflow-hidden bg-[#0b141a]">
+<div id="chatTab" class="tab flex-1 flex flex-col"><div id="chatBox" class="flex-1 overflow-y-auto p-3"></div><div class="input-bar"><button id="micBtn" class="text-[#8696a0] text-xl px-1">🎤</button><input id="userInput" placeholder="Ask Physics..."><button id="sendBtn" class="send">➤</button></div></div>
+<div id="quizTab" class="tab hidden p-4 text-white"><div class="text-sm font-bold">JAMB/WAEC/NECO 2010-2026 Quiz</div><div class="flex gap-2 mt-3"><select id="quizExam" class="bg-[#2a3942] rounded-full px-3 py-2 text-xs text-white"><option>JAMB</option><option>WAEC</option><option>NECO</option></select><select id="quizYear" class="bg-[#2a3942] rounded-full px-3 py-2 text-xs text-white"><option>2026</option><option>2025</option><option>2010-2022</option></select><button id="genQuiz" class="bg-[#00a884] px-4 py-2 rounded-full text-xs">Generate</button></div><div class="text-xs mt-3 opacity-60 text-[#8696a0]">Generates in chat tab</div></div>
+<div id="visionTab" class="tab hidden p-4 text-white"><div class="text-sm font-bold">Vision Solver</div><input type="file" id="visionFile" accept="image/*" class="text-xs mt-3 bg-[#2a3942] p-2 rounded-full w-full"><div id="visionOut" class="text-xs mt-3 bg-[#202c33] p-3 rounded-lg text-[#8696a0]">Upload → Describe FIRST → Transcribe verbatim → Given/Formula/$LaTeX$/Solution/Answer</div></div>
+<div id="imageTab" class="tab hidden p-4"><input id="imgPrompt" placeholder="Physics diagram..." class="w-full bg-[#2a3942] rounded-full px-4 py-3 text-sm text-white outline-none"><button id="genImg" class="bg-[#00a884] px-4 py-2 rounded-full text-xs mt-3 text-white">Generate + Watermark</button><div id="imgOut" class="mt-3"></div></div>
+<div id="voiceTab" class="tab hidden p-4 text-xs text-[#8696a0]">Tap 🎤 in chat bar to speak</div>
+<div id="historyTab" class="tab hidden p-4 text-white"><div class="flex justify-between items-center"><span class="text-sm font-bold">History</span><button id="clearHist" class="text-xs bg-[#202c33] px-3 py-1 rounded-full">Clear</button></div><div id="histBox" class="text-xs mt-3 space-y-2"></div></div>
 </main>
-<div id="adminModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"><div class="bg-slate-900 rounded p-4 w-full max-w-sm space-y-3"><div class="font-bold text-sm">Admin Access</div><input id="adminPass" type="password" placeholder="" class="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2 text-sm"><button id="adminLogin" class="w-full bg-green-600 py-2 rounded text-sm">Unlock</button><div id="adminPanel" class="hidden space-y-2"><div class="text-xs text-green-400">✅ Unlocked - Safe Mode</div><textarea id="announceInput" placeholder="Global announcement text only" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs h-20"></textarea><button id="postAnnounce" class="w-full bg-amber-600 py-2 rounded text-xs">Post Announcement Globally</button><div class="text-[9px] opacity-50">Safe: banner only, no code execution</div><button onclick="document.getElementById('adminModal').classList.add('hidden')" class="w-full bg-slate-800 py-1 rounded text-xs">Close</button></div></div></div>
+</div>
+
+<div id="adminModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"><div class="bg-[#202c33] rounded-xl p-4 w-full max-w-sm space-y-3"><div class="font-bold text-sm text-white">Admin Access</div><input id="adminPass" type="password" placeholder="Password" class="w-full bg-[#111b21] border border-[#2a3942] rounded-lg px-3 py-2 text-sm text-white"><button id="adminLogin" class="w-full bg-[#00a884] py-2.5 rounded-full text-sm text-white font-bold">Unlock</button><div id="adminPanel" class="hidden space-y-2"><div class="text-xs text-[#25d366]">✅ Unlocked - Safe Mode</div><textarea id="announceInput" placeholder="Global announcement text only" class="w-full bg-[#111b21] border border-[#2a3942] rounded-lg p-2 text-xs h-20 text-white"></textarea><button id="postAnnounce" class="w-full bg-[#00a884] py-2 rounded-full text-xs text-white">Post Announcement</button><button onclick="document.getElementById('adminModal').classList.add('hidden')" class="w-full bg-[#2a3942] py-2 rounded-full text-xs text-white">Close</button></div></div></div>
+
 <script>
 const NPOINT_URL="https://api.npoint.io/ce8c3e1c0a1f6e0a1f6e";
 const REAL_HASH="30e21c6058852f42e9e2464b3cfeaeac8a1785118bc19afb28b494e45432145b";
@@ -39,18 +69,19 @@ const ADMIN_TRIGGER=atob("Y2hpY29BYmR1bDIwMjZ4eXo=");
 let chatHistory=JSON.parse(localStorage.getItem('chico_hist')||'[]');
 let lastAnswer="";
 async function sha256js(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
-const steps=["Initializing V5.4...","Loading Physics 2010-2026...","Securing Vault (hash)...","Enabling All Features..."];let si=0;const logEl=document.getElementById('openLog');let iv=setInterval(()=>{if(si<steps.length){const d=document.createElement('div');d.textContent="> "+steps[si];logEl.appendChild(d);si++;}else{clearInterval(iv);document.getElementById('opening').style.opacity='0';setTimeout(()=>document.getElementById('opening').remove(),500);loadGlobal();renderHist();}},500);
-document.querySelectorAll('.tabBtn').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.tabBtn').forEach(x=>x.classList.replace('bg-green-600','bg-slate-800'));b.classList.replace('bg-slate-800','bg-green-600');document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById(b.dataset.tab+'Tab').classList.remove('hidden');}});
-function addMsg(role,text){const box=document.getElementById('chatBox');const div=document.createElement('div');div.className='msg max-w-[90%] p-2 rounded text-sm '+(role==='user'?'bg-green-900 ml-auto':'bg-slate-800');div.innerHTML=text.replace(/\n/g,'<br>');box.appendChild(div);box.scrollTop=box.scrollHeight;if(role==='assistant'){lastAnswer=text; if(window.renderMathInElement) renderMathInElement(div,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});} if(role!=='system'){chatHistory.push({role,text,time:new Date().toLocaleTimeString()});localStorage.setItem('chico_hist',JSON.stringify(chatHistory));renderHist();} }
-async function askAI(prompt){addMsg('user',prompt);addMsg('system','CHICO thinking...');try{if(prompt.toLowerCase().includes(ADMIN_TRIGGER.toLowerCase())){document.getElementById('adminModal').classList.remove('hidden');} const res=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'system',content:'You are CHICO AI Physics Expert JAMB/WAEC/NECO 2010-2026. Always: describe image first if image task, transcribe verbatim, then Given/Formula/$LaTeX$/Solution/Answer. Use $ for LaTeX.'},{role:'user',content:prompt}]})});const data=await res.json();document.querySelector('#chatBox').lastChild.remove();addMsg('assistant',data.choices?.[0]?.message?.content||'No response');}catch(e){document.querySelector('#chatBox').lastChild.remove();addMsg('assistant','Error '+e.message);} }
+const steps=["Initializing V5.4...","Loading Physics 2010-2026...","Securing Vault...","Enabling WhatsApp UI..."];let si=0;const logEl=document.getElementById('openLog');let iv=setInterval(()=>{if(si<steps.length){const d=document.createElement('div');d.textContent="> "+steps[si];logEl.appendChild(d);si++;}else{clearInterval(iv);document.getElementById('opening').style.opacity='0';setTimeout(()=>document.getElementById('opening').remove(),400);loadGlobal();renderHist();}},400);
+document.querySelectorAll('.tabBtn').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.tabBtn').forEach(x=>{x.classList.remove('active','bg-[#00a884]','text-white');x.classList.add('bg-[#202c33]','text-[#8696a0]')});b.classList.add('active','bg-[#00a884]','text-white');b.classList.remove('bg-[#202c33]','text-[#8696a0]');document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));document.getElementById(b.dataset.tab+'Tab').classList.remove('hidden');}});
+function addMsg(role,text){const box=document.getElementById('chatBox');const div=document.createElement('div');const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});div.className='msg '+(role==='user'?'user':role==='system'?'system':'bot');div.innerHTML=text.replace(/\n/g,'<br>')+`<span class="time">${time}${role==='user'?' ✓✓':''}</span>`;box.appendChild(div);box.scrollTop=box.scrollHeight;if(role==='assistant'){lastAnswer=text; if(window.renderMathInElement) renderMathInElement(div,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});} if(role!=='system'){chatHistory.push({role,text,time});localStorage.setItem('chico_hist',JSON.stringify(chatHistory));renderHist();} }
+async function askAI(prompt){addMsg('user',prompt);addMsg('system','Chico typing...');try{if(prompt.toLowerCase().includes(ADMIN_TRIGGER.toLowerCase())){document.getElementById('adminModal').classList.remove('hidden');} const res=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'system',content:'You are CHICO AI Physics Expert JAMB/WAEC/NECO 2010-2026. Always: describe image first if image task, transcribe verbatim, then Given/Formula/$LaTeX$/Solution/Answer. Use $ for LaTeX.'},{role:'user',content:prompt}]})});const data=await res.json();document.querySelector('#chatBox').lastChild.remove();addMsg('assistant',data.choices?.[0]?.message?.content||'No response');}catch(e){document.querySelector('#chatBox').lastChild.remove();addMsg('assistant','Error '+e.message);} }
 document.getElementById('sendBtn').onclick=()=>{const i=document.getElementById('userInput');if(i.value.trim()){askAI(i.value);i.value='';}};document.getElementById('userInput').onkeydown=e=>{if(e.key==='Enter')document.getElementById('sendBtn').click();};
-document.getElementById('genQuiz').onclick=()=>{const ex=document.getElementById('quizExam').value;const yr=document.getElementById('quizYear').value;askAI(`Generate 5 ${ex} Physics ${yr} past questions A-D with correct answer and explanation Given/Formula/$LaTeX$/Solution/Answer`);};
-document.getElementById('visionFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.getElementById('visionOut').innerText='Sent to solver... check chat';askAI('VISION TASK: Image uploaded base64 len '+ev.target.result.length+'. Do: 1) Describe detail FIRST 2) Transcribe verbatim 3) Solve Given/Formula/$LaTeX$/Solution/Answer');};r.readAsDataURL(f);};
-document.getElementById('genImg').onclick=()=>{const p=document.getElementById('imgPrompt').value;if(!p)return;const out=document.getElementById('imgOut');out.innerHTML='Generating...';const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?width=512&height=512&nologo=true`;const img=new Image();img.crossOrigin='anonymous';img.src=url;img.onload=()=>{const c=document.createElement('canvas');c.width=512;c.height=532;const ctx=c.getContext('2d');ctx.drawImage(img,0,0,512,512);ctx.fillStyle='white';ctx.fillRect(0,512,512,20);ctx.fillStyle='rgba(0,0,0,0.6)';ctx.font='11px monospace';ctx.fillText('CHICO AI © Abdulsamad',332,526);out.innerHTML='';out.appendChild(c);};};
+document.getElementById('genQuiz').onclick=()=>{const ex=document.getElementById('quizExam').value;const yr=document.getElementById('quizYear').value;askAI(`Generate 5 ${ex} Physics ${yr} past questions A-D with correct answer and explanation Given/Formula/$LaTeX$/Solution/Answer`);document.querySelector('[data-tab="chat"]').click();};
+document.getElementById('visionFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.getElementById('visionOut').innerText='Sent to solver... check chat';askAI('VISION TASK: Image uploaded. Do: 1) Describe detail FIRST 2) Transcribe verbatim 3) Solve Given/Formula/$LaTeX$/Solution/Answer');document.querySelector('[data-tab="chat"]').click();};r.readAsDataURL(f);};
+document.getElementById('genImg').onclick=()=>{const p=document.getElementById('imgPrompt').value;if(!p)return;const out=document.getElementById('imgOut');out.innerHTML='<div class="text-xs text-[#8696a0]">Generating...</div>';const url=`https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?width=512&height=512&nologo=true`;const img=new Image();img.crossOrigin='anonymous';img.src=url;img.onload=()=>{const c=document.createElement('canvas');c.width=512;c.height=532;const ctx=c.getContext('2d');ctx.drawImage(img,0,0,512,512);ctx.fillStyle='white';ctx.fillRect(0,512,512,20);ctx.fillStyle='rgba(0,0,0,0.6)';ctx.font='11px monospace';ctx.fillText('CHICO AI © Abdulsamad',332,526);out.innerHTML='';out.appendChild(c);};};
 let rec;document.getElementById('micBtn').onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Mic not supported');return;}if(!rec){rec=new SR();rec.onresult=e=>{document.getElementById('userInput').value=e.results[0][0].transcript;document.getElementById('sendBtn').click();};}rec.start();};
-document.getElementById('readBtn').onclick=()=>{if(lastAnswer){speechSynthesis.speak(new SpeechSynthesisUtterance(lastAnswer.replace(/\$/g,'')));}};document.getElementById('stopReadBtn').onclick=()=>speechSynthesis.cancel();
-function renderHist(){const b=document.getElementById('histBox');if(!b)return;b.innerHTML=chatHistory.slice(-50).reverse().map(h=>`<div class="p-1 bg-slate-900 rounded"><b>${h.role}</b> ${h.time}<br>${h.text.slice(0,120)}</div>`).join('');} document.getElementById('clearHist').onclick=()=>{localStorage.removeItem('chico_hist');chatHistory=[];renderHist();document.getElementById('chatBox').innerHTML='';};
-document.getElementById('adminLogin').onclick=async()=>{const p=document.getElementById('adminPass').value;const h=await sha256js(p);if(h===REAL_HASH){document.getElementById('adminPanel').classList.remove('hidden');addMsg('system','Admin unlocked (secured)');}else alert('Wrong');};
+function renderHist(){const b=document.getElementById('histBox');if(!b)return;b.innerHTML=chatHistory.slice(-30).reverse().map(h=>`<div class="p-2 bg-[#202c33] rounded-lg"><b class="text-[#25d366]">${h.role}</b> <span class="opacity-50">${h.time}</span><br>${h.text.slice(0,100)}</div>`).join('');} document.getElementById('clearHist').onclick=()=>{localStorage.removeItem('chico_hist');chatHistory=[];renderHist();document.getElementById('chatBox').innerHTML='';};
+document.getElementById('adminLogin').onclick=async()=>{const p=document.getElementById('adminPass').value;const h=await sha256js(p);if(h===REAL_HASH){document.getElementById('adminPanel').classList.remove('hidden');addMsg('system','Admin unlocked');}else alert('Wrong');};
 async function loadGlobal(){try{const r=await fetch(NPOINT_URL);const d=await r.json();if(d.announcement){const bar=document.getElementById('announceBar');bar.textContent=d.announcement;bar.classList.remove('hidden');}}catch(e){}}
-document.getElementById('postAnnounce').onclick=async()=>{const txt=document.getElementById('announceInput').value;if(!txt)return;try{const cur=await (await fetch(NPOINT_URL)).json();cur.announcement=txt;delete cur.globalcode;delete cur.inject;await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cur)});alert('Announcement posted safely!');}catch(e){alert('Fail '+e.message);}};
-</script></body></html>
+document.getElementById('postAnnounce').onclick=async()=>{const txt=document.getElementById('announceInput').value;if(!txt)return;try{const cur=await (await fetch(NPOINT_URL)).json();cur.announcement=txt;delete cur.globalcode;delete cur.inject;await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cur)});alert('Announcement posted!');}catch(e){alert('Fail '+e.message);}};
+addMsg('bot','Assalamu alaikum 👋 I am **Chico AI** your Physics teacher. Ask me any JAMB/WAEC/NECO question 2010-2026 🚀');
+</script>
+</body></html>
